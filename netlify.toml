@@ -1,0 +1,8 @@
+# Netlify settings for the Rising Solutions Group website.
+# The site folder is published as-is; no build step.
+[build]
+  publish = "site"
+  command = ""
+
+[build.processing]
+  skip_processing = true

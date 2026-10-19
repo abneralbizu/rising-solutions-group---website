@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1222">
+<title>Rising Solutions Group</title>
+<meta name="description" content="Rising Solutions Group: planning, development, real estate and due diligence for Florida commercial and land deals. Site analysis, concept design and pre-application meeting support.">
+<meta name="keywords" content="due diligence, planning, development, real estate, site analysis, zoning, buildable area, concept site plan, pre-application meeting, Florida">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* Layout: a fixed plan-set drawing fills the screen behind every chapter; scroll moves the view from context map to survey, constraints, concept plan, redline markup and title-block sheet. Text sits on glass panels left or right with a scrim on that side. Single dark navy theme by design; colors from the logo plus standard drafting layer colors. */
+:root{
+  color-scheme:dark;
+  --bg:#0A1222; --bg-2:#0E1830; --glass:rgba(10,18,34,.66); --line:rgba(232,238,250,.13); --line-2:rgba(232,238,250,.26);
+  --ink:#EEF2FA; --ink-2:rgba(232,238,250,.76); --ink-3:rgba(232,238,250,.52);
+  --accent:#9EC2FF; --steel:#4169A5; --amber:#F0B04A;
+  --l-zone:#B79BEA; --l-set:#BCC9E4; --l-flood:#5EB0EA; --l-wet:#57C38C; --l-esmt:#F0B04A; --l-tree:#A4D77E; --l-util:#F2857A;
+  --display:"Jost","Century Gothic","Avenir Next",Futura,Arial,sans-serif;
+  --serif:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --body:"Public Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --max:1320px; --gut:clamp(20px,5vw,72px);
+  --ease:cubic-bezier(.2,.7,0,1);
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.6;overflow-x:hidden}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+em.s{font-family:var(--serif);font-style:italic;font-weight:400}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:4px}
+.mono{font-family:var(--mono)}
+.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.btn{display:inline-flex;align-items:center;gap:12px;font:500 15px/1 var(--body);padding:15px 22px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:background .25s,color .25s,border-color .25s}
+.btn .ar{transition:transform .25s}
+.btn:hover .ar{transform:translateX(4px)}
+.btn-light{background:var(--ink);color:#0A1020}
+.btn-light:hover{background:var(--accent)}
+.btn-ghost{border-color:var(--line-2);color:var(--ink);background:rgba(10,18,34,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn-ghost:hover{border-color:var(--ink)}
+
+/* ---------- Stage ---------- */
+.stage{position:fixed;inset:0;z-index:0;background:#0A1222}
+.stage canvas{display:block;width:100%;height:100%}
+.scrim{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .9s ease}
+.scrim-left{background:linear-gradient(90deg,rgba(10,18,34,.88) 0%,rgba(10,18,34,.7) 32%,rgba(10,18,34,.25) 52%,rgba(10,18,34,0) 66%)}
+.scrim-right{background:linear-gradient(270deg,rgba(10,18,34,.88) 0%,rgba(10,18,34,.7) 32%,rgba(10,18,34,.25) 52%,rgba(10,18,34,0) 66%)}
+.scrim-center{background:radial-gradient(ellipse 60% 56% at 50% 50%,rgba(10,18,34,.8),rgba(10,18,34,.45) 55%,rgba(10,18,34,0) 85%)}
+body[data-side="left"] .scrim-left,body[data-side="right"] .scrim-right,body[data-side="center"] .scrim-center{opacity:1}
+.labels{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.lbl{position:absolute;left:0;top:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;white-space:nowrap;padding:4px 8px;border-radius:3px;background:rgba(10,18,34,.8);border:1px solid currentColor;transition:opacity .4s;will-change:transform}
+.lbl::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:12px;background:currentColor}
+.lbl.big{font-size:11.5px;color:var(--ink);border-color:var(--accent);background:rgba(16,28,58,.85)}
+.lbl.pin{font-family:var(--body);font-size:12.5px;letter-spacing:0;color:var(--ink);border-color:var(--amber);padding:6px 10px 6px 6px;display:flex;align-items:center;gap:8px;transition:opacity .4s,box-shadow .3s,background .3s}
+.lbl.pin b{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--amber);color:#0A1020;font:600 11px var(--mono)}
+.lbl.pin::after{background:var(--amber)}
+.lbl.pin.hot{background:rgba(240,176,74,.22);box-shadow:0 0 0 4px rgba(240,176,74,.18)}
+.lbl.off{opacity:0}
+
+/* ---------- Loader ---------- */
+.loader{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;transition:opacity .9s ease,visibility .9s}
+.loader.done{opacity:0;visibility:hidden}
+.loader-in{display:grid;gap:18px;justify-items:center;width:min(320px,80vw)}
+.loader-in img{width:120px;height:auto}
+.loader-lab{display:flex;justify-content:space-between;width:100%;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.loader-bar{width:100%;height:2px;background:var(--line);overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+
+/* ---------- Header + rail ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:40;background:var(--bg)}
+header.site{position:fixed;top:env(safe-area-inset-top, 0px);left:0;right:0;z-index:30;background:linear-gradient(180deg,rgba(10,18,34,.75),rgba(10,18,34,0));}
+.nav{max-width:var(--max);margin:0 auto;padding:16px max(var(--gut), env(safe-area-inset-right, 0px)) 16px max(var(--gut), env(safe-area-inset-left, 0px));display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{height:36px;width:auto;display:block}
+.brand span{font-family:var(--display);font-size:14.5px;letter-spacing:.18em;font-weight:500}
+.nav-links{display:flex;gap:28px}
+.nav-links a{text-decoration:none;font-size:14px;color:var(--ink-2)}
+.nav-links a:hover{color:var(--ink)}
+.nav .btn{padding:11px 18px;font-size:14px}
+@media (max-width:1000px){.nav-links{display:none}}
+@media (max-width:460px){.nav .btn{display:none}.brand span{font-size:12.5px;letter-spacing:.12em}}
+.rail{position:fixed;right:max(18px, env(safe-area-inset-right, 0px));top:50%;transform:translateY(-50%);z-index:30;display:grid;gap:4px;list-style:none;margin:0;padding:0}
+.rail a{display:flex;align-items:center;justify-content:flex-end;gap:10px;text-decoration:none;padding:4px 0}
+.rail .nm{font-size:12px;color:var(--ink-2);opacity:0;transform:translateX(6px);transition:opacity .25s,transform .25s;white-space:nowrap}
+.rail .dt{width:22px;height:2px;background:var(--line-2);transition:width .3s,background .3s}
+.rail a:hover .nm,.rail a.on .nm{opacity:1;transform:none}
+.rail a.on .dt{width:38px;background:var(--accent)}
+@media (max-width:1180px){.rail{display:none}}
+
+/* ---------- Chapters ---------- */
+main{position:relative;z-index:3}
+.chapter{min-height:115vh;display:flex;align-items:center;padding-block:120px}
+.chapter .in{width:100%;max-width:var(--max);margin:0 auto;padding-left:max(var(--gut), env(safe-area-inset-left, 0px));padding-right:max(var(--gut), env(safe-area-inset-right, 0px));display:flex}
+.chapter-right .in{justify-content:flex-end}
+.chapter-center .in{justify-content:center}
+.panel{width:min(520px,100%);display:grid;gap:16px}
+.panel.wide{width:min(640px,100%)}
+.glass{background:var(--glass);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);border:1px solid var(--line);border-radius:18px;padding:26px}
+.ch-num{display:flex;align-items:center;gap:12px}
+.ch-num b{font-family:var(--mono);font-weight:500;font-size:12px;color:var(--accent);letter-spacing:.1em}
+.ch-num i{flex:0 0 40px;height:1px;background:var(--line-2)}
+.chapter h2{font-size:clamp(38px,4.4vw,64px);letter-spacing:-.03em;line-height:.95}
+.chapter h2 em.s{color:var(--accent)}
+.lede{font-size:18px;color:var(--ink-2);max-width:48ch}
+.reveal > *{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0)*80ms)}
+.reveal.shown > *{opacity:1;transform:none}
+.no-js .reveal > *,.static .reveal > *{opacity:1;transform:none}
+
+/* hero */
+.hero .in{align-items:flex-end}
+.hero .panel{width:min(720px,100%)}
+.kw{display:flex;flex-wrap:wrap;gap:6px 0}
+.kw span{font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2)}
+.kw span + span::before{content:"/";margin:0 12px;color:var(--ink-3)}
+.hero h1{font-size:clamp(50px,7.6vw,124px);letter-spacing:-.04em;line-height:.9;font-weight:400}
+.hero h1 em.s{color:var(--accent);font-size:1.05em}
+.ctas{display:flex;flex-wrap:wrap;gap:10px}
+.cue{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-top:14px}
+.cue i{width:1px;height:40px;background:linear-gradient(var(--accent),transparent);animation:cue 2.2s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(.2);transform-origin:bottom}}
+
+/* hover lists */
+.hl{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.hl li{border-radius:10px;transition:background .2s}
+.hl .it{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:12px;align-items:center;padding:6px 10px;cursor:pointer;border-radius:10px}
+.hl .it:hover,.hl .it.hot{background:rgba(255,255,255,.06)}
+.hl input{position:absolute;opacity:0;pointer-events:none}
+.tog{width:30px;height:18px;border-radius:999px;background:var(--line-2);position:relative;transition:background .2s}
+.tog::after{content:"";position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--ink-3);transition:transform .2s,background .2s}
+.hl input:checked + .tog{background:var(--c)}
+.hl input:checked + .tog::after{transform:translateX(12px);background:#0A1020}
+.hl input:focus-visible + .tog{outline:2px solid var(--amber);outline-offset:2px}
+.ln b{display:block;font-size:14px;font-weight:600;line-height:1.3}
+.ln small{display:block;font-size:12px;color:var(--ink-3);line-height:1.35}
+.imp{font-family:var(--mono);font-size:12px;white-space:nowrap}
+.imp.flag{color:var(--amber)}
+.it.off .ln,.it.off .imp{opacity:.45}
+.sw{width:30px;display:grid;place-items:center}
+.sw i{width:10px;height:10px;border-radius:2px;background:var(--c)}
+.hl.std .it{grid-template-columns:30px minmax(0,1fr) auto}
+.hl.q .it{grid-template-columns:30px minmax(0,1fr)}
+.qn{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--amber);color:#0A1020;font:600 11px var(--mono)}
+.hint{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.readout{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:16px}
+.ro-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.ro-big{font-family:var(--display);font-size:40px;font-weight:300;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.ro-big small{font-size:15px;color:var(--ink-3);margin-left:6px;letter-spacing:0}
+.meter{height:5px;background:var(--line);border-radius:999px;overflow:hidden}
+.meter i{display:block;height:100%;width:55%;background:linear-gradient(90deg,var(--steel),var(--accent));transition:width .5s}
+.ro-note{font-size:13px;color:var(--ink-2)}
+.ro-note b{color:var(--ink)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fact{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.fact span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.fact b{font-weight:500;font-size:14.5px;line-height:1.35}
+.scope-list{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+.scope-list li{font-size:14.5px;color:var(--ink-2);padding-left:18px;position:relative}
+.scope-list li::before{content:"";position:absolute;left:0;top:.68em;width:9px;height:1px;background:var(--accent)}
+details.more summary{cursor:pointer;font-size:14px;color:var(--accent);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more[open] summary{margin-bottom:10px}
+
+/* who */
+.big-kw{font-family:var(--display);font-size:clamp(40px,6vw,92px);font-weight:300;letter-spacing:-.035em;line-height:.95;text-align:center}
+.big-kw span{display:block}
+.big-kw span:nth-child(even){font-family:var(--serif);font-style:italic;color:var(--accent)}
+.aud{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+.aud div{display:grid;gap:6px;align-content:start}
+.aud h3{font-size:19px;font-weight:500}
+.aud p{font-size:14px;color:var(--ink-2)}
+@media (max-width:760px){.aud{grid-template-columns:1fr}}
+
+/* process */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.steps .n{font-family:var(--serif);font-style:italic;font-size:34px;line-height:1;color:var(--accent)}
+.steps b{display:block;font-weight:600;font-size:15px}
+.steps span{font-size:14px;color:var(--ink-2)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.split h3{font-size:16px;font-weight:600;margin-bottom:10px;font-family:var(--body)}
+@media (max-width:560px){.split{grid-template-columns:1fr}}
+
+/* book */
+.book-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;align-items:center}
+.bk-wrap{perspective:900px}
+.bk{width:150px;aspect-ratio:3/4.1;position:relative;transform-style:preserve-3d;transform:rotateY(-26deg) rotateX(6deg);transition:transform .25s ease-out}
+.bk-face{position:absolute;inset:0;border-radius:2px 7px 7px 2px;background:linear-gradient(150deg,#2E4472,#1B2744 55%,#121B33);box-shadow:inset 5px 0 0 rgba(0,0,0,.35),12px 18px 30px -12px rgba(0,0,0,.8);padding:14px 12px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transform:translateZ(10px)}
+.bk-pages{position:absolute;top:3px;bottom:3px;right:0;width:20px;background:repeating-linear-gradient(90deg,#E8EBF2 0 2px,#C9CED9 2px 3px);transform:rotateY(90deg) translateZ(-10px) translateX(10px);transform-origin:right center}
+.bk-face .e{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;color:var(--accent)}
+.bk-face .t{font-family:var(--display);font-size:13px;font-weight:500;line-height:1.1;color:#FFF}
+.bk-face svg{width:80%;align-self:flex-end}
+.bmeta{display:flex;flex-wrap:wrap;gap:8px}
+.bmeta div{border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.bmeta span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.bmeta b{font-family:var(--display);font-size:19px;font-weight:400}
+.bmeta .price{border-color:var(--accent);background:rgba(158,194,255,.08)}
+.bmeta .price b{color:var(--accent)}
+.notify{display:flex;flex-wrap:wrap;gap:8px}
+.notify input{flex:1 1 200px;min-width:0;border-radius:999px;padding:13px 18px}
+@media (max-width:520px){.book-row{grid-template-columns:1fr}.bk{width:130px}}
+
+/* FAQ */
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:16px 44px 16px 0;font-family:var(--display);font-size:19px;position:relative}
+.faq summary:hover{color:var(--accent)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:0;top:11px;width:32px;height:32px;border:1px solid var(--line-2);border-radius:50%;display:grid;place-items:center;font:300 19px var(--display);transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 40px 18px 0;color:var(--ink-2);font-size:15px}
+
+/* contact */
+.cta-big{font-family:var(--display);font-size:clamp(46px,6.6vw,104px);font-weight:300;letter-spacing:-.045em;line-height:.9}
+.cta-big em.s{color:var(--accent)}
+.cline{display:flex;flex-wrap:wrap;gap:24px}
+.cline div{display:grid;gap:2px}
+.cline .val{font-family:var(--display);font-size:20px;font-weight:400}
+.copy{font:500 10.5px var(--mono);letter-spacing:.06em;background:none;border:1px solid var(--line-2);border-radius:999px;padding:5px 10px;margin-left:10px;color:var(--ink-3);cursor:pointer;vertical-align:middle}
+.copy:hover{color:var(--ink);border-color:var(--ink)}
+form.card{display:grid;gap:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row2 > *{min-width:0}
+label.f{display:grid;gap:6px;font-size:12.5px;font-weight:500;color:var(--ink-3)}
+input,select,textarea{font:400 15.5px var(--body);color:var(--ink);background:rgba(10,18,34,.6);border:1px solid var(--line-2);border-radius:10px;padding:12px 13px;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none}
+textarea{min-height:96px;resize:vertical}
+fieldset{border:0;margin:0;padding:0}
+legend{font-size:12.5px;font-weight:500;color:var(--ink-3);margin-bottom:8px;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips span{display:inline-block;padding:8px 14px;border:1px solid var(--line-2);border-radius:999px;font-size:13.5px;cursor:pointer;transition:all .2s}
+.chips input:checked + span{background:var(--ink);color:#0A1020;border-color:var(--ink)}
+.chips input:focus-visible + span{outline:2px solid var(--amber);outline-offset:2px}
+.form-msg{font-size:14px;padding:11px 14px;border-radius:10px;background:rgba(158,194,255,.1);border:1px solid var(--line-2);flex-basis:100%}
+@media (max-width:560px){.row2{grid-template-columns:1fr}}
+
+footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var(--line);color:var(--ink-3);font-size:13.5px}
+.foot{max-width:var(--max);margin:0 auto;padding:52px max(var(--gut), env(safe-area-inset-right, 0px)) 36px max(var(--gut), env(safe-area-inset-left, 0px));display:grid;grid-template-columns:auto minmax(0,1fr);gap:56px}
+.foot img{width:170px;height:auto;display:block}
+.foot p + p{margin-top:10px}
+.foot b{color:var(--ink);font-weight:500}
+.legal{grid-column:1/-1;border-top:1px solid var(--line);padding-top:16px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+@media (max-width:760px){.foot{grid-template-columns:1fr;gap:26px}}
+
+/* phones: text sits low, world above it */
+@media (max-width:820px){
+  .chapter{min-height:auto;padding-block:62vh 40px;align-items:flex-end}
+  .chapter.hero{padding-top:48vh}
+  .chapter .in,.chapter-right .in,.chapter-center .in{justify-content:flex-start}
+  .scrim-left,.scrim-right,.scrim-center{background:linear-gradient(0deg,rgba(10,18,34,.92) 0%,rgba(10,18,34,.72) 45%,rgba(10,18,34,.1) 75%,rgba(10,18,34,0) 90%)}
+  .glass{padding:20px}
+  .facts{grid-template-columns:1fr}
+  .lbl{font-size:9.5px;padding:3px 6px}
+}
+.nogl .stage canvas{display:none}
+</style>
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<meta property="og:title" content="Rising Solutions Group">
+<meta property="og:description" content="Planning, development, real estate and due diligence for Florida commercial and land deals.">
+<meta property="og:image" content="assets/images/logo.png">
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-in">
+    <img src="assets/images/logo.png" alt="" width="120" height="90">
+    <p class="loader-lab"><span>Drafting the site plan</span><span id="ldPct">0%</span></p>
+    <div class="loader-bar"><i id="ldBar"></i></div>
+  </div>
+</div>
+
+<div class="stage" id="stage" aria-hidden="true"></div>
+<div class="scrim scrim-left"></div><div class="scrim scrim-right"></div><div class="scrim scrim-center"></div>
+
+<header class="site">
+  <div class="nav">
+    <a class="brand" href="#top" aria-label="Rising Solutions Group home"><img src="assets/images/logo-mark.png" alt="" width="47" height="36"><span>RISING SOLUTIONS GROUP</span></a>
+    <nav class="nav-links" aria-label="Main"><a href="#analyze">Analyze</a><a href="#design">Design</a><a href="#present">Present</a><a href="#book">The Book</a><a href="#contact">Contact</a></nav>
+    <a class="btn btn-light" href="#contact">Start a project <span class="ar">→</span></a>
+  </div>
+</header>
+
+<ol class="rail" aria-label="Chapters">
+  <li><a href="#top" data-ch="0"><span class="nm">Overview</span><span class="dt"></span></a></li>
+  <li><a href="#analyze" data-ch="1"><span class="nm">01 Analyze</span><span class="dt"></span></a></li>
+  <li><a href="#design" data-ch="2"><span class="nm">02 Design</span><span class="dt"></span></a></li>
+  <li><a href="#present" data-ch="3"><span class="nm">03 Present</span><span class="dt"></span></a></li>
+  <li><a href="#who" data-ch="4"><span class="nm">Who we serve</span><span class="dt"></span></a></li>
+  <li><a href="#process" data-ch="5"><span class="nm">Process</span><span class="dt"></span></a></li>
+  <li><a href="#book" data-ch="6"><span class="nm">The book</span><span class="dt"></span></a></li>
+  <li><a href="#faq" data-ch="7"><span class="nm">Questions</span><span class="dt"></span></a></li>
+  <li><a href="#contact" data-ch="8"><span class="nm">Contact</span><span class="dt"></span></a></li>
+</ol>
+
+<main>
+  <section class="chapter chapter-left hero" id="top" data-side="left" aria-labelledby="h-hero">
+    <div class="in"><div class="panel reveal">
+      <div class="kw"><span>Planning</span><span>Development</span><span>Real Estate</span><span>Due Diligence</span></div>
+      <h1 id="h-hero">Know what a site can <em class="s">become</em> before you buy it.</h1>
+      <p class="lede">Due diligence, concept design and pre-application support for Florida commercial and land deals. Scroll to follow one parcel from raw land to a plan the city has seen.</p>
+      <div class="ctas"><a class="btn btn-light" href="#contact">Request a proposal <span class="ar">→</span></a><a class="btn btn-ghost" href="#analyze">Fly the site</a></div>
+      <div class="cue"><i></i>Scroll to explore</div>
+    </div></div>
+  </section>
+
+  <section class="chapter chapter-right" id="analyze" data-side="right" aria-labelledby="h-analyze">
+    <div class="in"><div class="panel reveal">
+      <div class="ch-num"><b>01</b><i></i><span class="tag">Phase 1</span></div>
+      <h2 id="h-analyze">Due Diligence &amp; <em class="s">Site Analysis</em></h2>
+      <p class="lede">Every parcel carries layers you can’t see from the road. Hover a layer, or point at the drawing, to light it up. Switch it off to see what it costs you.</p>
+      <div class="glass" style="padding:14px 12px 18px">
+        <ul class="hl" id="layerList">
+          <li><label class="it" data-k="zone" style="--c:var(--l-zone)"><input type="checkbox" data-layer="zone" checked><span class="tog"></span><span class="ln"><b>Zoning &amp; land use</b><small>C-2 commercial · check overlays</small></span><span class="imp flag">FLAG</span></label></li>
+          <li><label class="it" data-k="setback" style="--c:var(--l-set)"><input type="checkbox" data-layer="setback" checked><span class="tog"></span><span class="ln"><b>Setbacks</b><small>Required front, side and rear yards</small></span><span class="imp" data-imp="setback">–</span></label></li>
+          <li><label class="it" data-k="flood" style="--c:var(--l-flood)"><input type="checkbox" data-layer="flood" checked><span class="tog"></span><span class="ln"><b>Flood zone</b><small>Mapped flood area on the east side</small></span><span class="imp" data-imp="flood">–</span></label></li>
+          <li><label class="it" data-k="wet" style="--c:var(--l-wet)"><input type="checkbox" data-layer="wet" checked><span class="tog"></span><span class="ln"><b>Wetlands &amp; buffer</b><small>Northwest corner</small></span><span class="imp" data-imp="wet">–</span></label></li>
+          <li><label class="it" data-k="esmt" style="--c:var(--l-esmt)"><input type="checkbox" data-layer="esmt" checked><span class="tog"></span><span class="ln"><b>Easements</b><small>Recorded drainage easement</small></span><span class="imp" data-imp="esmt">–</span></label></li>
+          <li><label class="it" data-k="trees" style="--c:var(--l-tree)"><input type="checkbox" data-layer="trees" checked><span class="tog"></span><span class="ln"><b>Protected trees</b><small>Three specimen trees</small></span><span class="imp" data-imp="trees">–</span></label></li>
+          <li><label class="it" data-k="util" style="--c:var(--l-util)"><input type="checkbox" data-layer="util" checked><span class="tog"></span><span class="ln"><b>Utilities</b><small>Water at the frontage, sewer ±380 ft away</small></span><span class="imp flag">FLAG</span></label></li>
+        </ul>
+        <div class="readout" aria-live="polite" style="margin:10px 10px 0">
+          <div class="ro-row"><span class="tag">Buildable area · sample parcel</span><span class="tag" id="roPct">–</span></div>
+          <div class="ro-big" id="roAc">–</div>
+          <div class="meter"><i id="roBar"></i></div>
+          <p class="ro-note" id="roNote"></p>
+        </div>
+      </div>
+      <p class="tag" style="letter-spacing:.1em">Deliverable · <span style="color:var(--ink)">Summary Due Diligence Memorandum</span> · Fixed fee</p>
+    </div></div>
+  </section>
+
+  <section class="chapter chapter-left" id="design" data-side="left" aria-labelledby="h-design">
+    <div class="in"><div class="panel reveal">
+      <div class="ch-num"><b>02</b><i></i><span class="tag">Phase 2</span></div>
+      <h2 id="h-design">Preliminary <em class="s">Concept Design</em></h2>
+      <p class="lede">We fit buildings, parking and access into what’s left, then check the concept against the code. Hover a standard, or a building, to see where it applies.</p>
+      <div class="glass" style="padding:14px 12px">
+        <p class="hint" style="padding:2px 10px 8px">Development standards</p>
+        <ul class="hl std" id="stdList">
+          <li><div class="it" tabindex="0" data-k="setback" style="--c:var(--l-set)"><span class="sw"><i></i></span><span class="ln"><b>Setbacks</b><small>Front / side / rear yards</small></span><span class="imp">30′ / 25′ / 25′</span></div></li>
+          <li><div class="it" tabindex="0" data-k="height" style="--c:#FFFFFF"><span class="sw"><i></i></span><span class="ln"><b>Height limit</b><small>Single-story retail, shown in elevation</small></span><span class="imp">±24 ft</span></div></li>
+          <li><div class="it" tabindex="0" data-k="far" style="--c:var(--accent)"><span class="sw"><i></i></span><span class="ln"><b>Floor area ratio</b><small>Total floor area over lot area</small></span><span class="imp" id="farV">–</span></div></li>
+          <li><div class="it" tabindex="0" data-k="cov" style="--c:var(--amber)"><span class="sw"><i></i></span><span class="ln"><b>Lot coverage</b><small>Share of the lot under roof</small></span><span class="imp" id="covV">–</span></div></li>
+          <li><div class="it" tabindex="0" data-k="park" style="--c:#DCE8FF"><span class="sw"><i></i></span><span class="ln"><b>Parking</b><small>Spaces drawn on the concept; required count set by local code</small></span><span class="imp" id="parkV">–</span></div></li>
+        </ul>
+      </div>
+      <div class="facts"><div class="fact"><span>Deliverable</span><b>Concept site plan, massing and standards summary</b></div><div class="fact"><span>Revisions</span><b>Up to two rounds</b></div></div>
+    </div></div>
+  </section>
+
+  <section class="chapter chapter-right" id="present" data-side="right" aria-labelledby="h-present">
+    <div class="in"><div class="panel reveal">
+      <div class="ch-num"><b>03</b><i></i><span class="tag">Phase 3</span></div>
+      <h2 id="h-present">Pre-Application <em class="s">Meeting Support</em></h2>
+      <p class="lede">We build the package, schedule the meeting, sit across from city or county staff, and bring back a written summary. Hover a question to find it on the site.</p>
+      <div class="glass" style="padding:14px 12px">
+        <p class="hint" style="padding:2px 10px 8px">Questions for staff</p>
+        <ul class="hl q" id="qList">
+          <li><div class="it" tabindex="0" data-k="q1"><span class="qn">1</span><span class="ln"><b>Where can the driveway go on Commerce Pkwy?</b></span></div></li>
+          <li><div class="it" tabindex="0" data-k="q2"><span class="qn">2</span><span class="ln"><b>Does tree preservation reduce required parking?</b></span></div></li>
+          <li><div class="it" tabindex="0" data-k="q3"><span class="qn">3</span><span class="ln"><b>How is stormwater handled next to the flood area?</b></span></div></li>
+          <li><div class="it" tabindex="0" data-k="q4"><span class="qn">4</span><span class="ln"><b>Who pays to extend the sewer main?</b></span></div></li>
+        </ul>
+      </div>
+      <div class="facts"><div class="fact"><span>Package</span><b>Narrative, location map, concept plan, questions</b></div><div class="fact"><span>Meeting</span><b>One included, in person or video</b></div></div>
+    </div></div>
+  </section>
+
+  <section class="chapter chapter-center" id="who" data-side="center" aria-labelledby="h-who">
+    <div class="in"><div class="panel wide reveal" style="text-align:center;justify-items:center">
+      <p class="tag">Who we work with</p>
+      <h2 id="h-who" class="big-kw"><span>Planning.</span><span>Development.</span><span>Real Estate.</span><span>Due Diligence.</span></h2>
+      <div class="aud" style="text-align:left">
+        <div class="glass"><h3>Buyers &amp; investors</h3><p>Know what you’re buying while the inspection period is still open.</p></div>
+        <div class="glass"><h3>Developers</h3><p>Test yield and reach pre-application with a concept staff can respond to.</p></div>
+        <div class="glass"><h3>Brokers &amp; agents</h3><p>Give clients a documented starting point and catch issues early.</p></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="chapter chapter-left" id="process" data-side="left" aria-labelledby="h-process">
+    <div class="in"><div class="panel reveal">
+      <div class="ch-num"><b>04</b><i></i><span class="tag">Process</span></div>
+      <h2 id="h-process">How an engagement <em class="s">runs</em></h2>
+      <ol class="steps">
+        <li><span class="n">01</span><div><b>Tell us about the property</b><span>Address or parcel ID and what you want to build or buy.</span></div></li>
+        <li><span class="n">02</span><div><b>Choose phases and sign</b><span>A written agreement sets scope, fixed fee and schedule.</span></div></li>
+        <li><span class="n">03</span><div><b>Share what you have</b><span>Deed, title report, survey, earlier reports, known easements.</span></div></li>
+        <li><span class="n">04</span><div><b>We research and report</b><span>Each phase ends with its written work product.</span></div></li>
+        <li><span class="n">05</span><div><b>Review and decide</b><span>Feedback within ten business days.</span></div></li>
+      </ol>
+      <details class="more glass" style="padding:16px 20px"><summary>Who does what: us vs. licensed specialists ↓</summary>
+        <div class="split">
+          <div><h3>Rising Solutions Group</h3><ul class="scope-list"><li>Zoning and land use review</li><li>Parcel, access and boundary check</li><li>Utility availability review</li><li>Environmental constraint screening</li><li>Concept site plan and massing</li><li>Pre-application package and meeting</li></ul></div>
+          <div><h3>Licensed specialists</h3><ul class="scope-list"><li>Stamped architectural drawings</li><li>Civil, structural, MEP engineering</li><li>Boundary, topo, ALTA surveys</li><li>Phase I and II environmental</li><li>Wetland, geotech, traffic studies</li><li>Title and land use counsel</li></ul></div>
+        </div>
+        <p style="margin-top:12px;font-size:13.5px;color:var(--ink-3)">You hire specialists directly. On request we suggest qualified firms and coordinate with them at no added charge.</p>
+      </details>
+    </div></div>
+  </section>
+
+  <section class="chapter chapter-right" id="book" data-side="right" aria-labelledby="h-book">
+    <div class="in"><div class="panel reveal">
+      <div class="ch-num"><b>05</b><i></i><span class="tag">The book</span></div>
+      <h2 id="h-book">The method, <em class="s">in print.</em></h2>
+      <div class="glass">
+        <div class="book-row">
+          <div class="bk-wrap" id="bkWrap" aria-hidden="true"><div class="bk" id="bk"><div class="bk-pages"></div><div class="bk-face">
+            <span class="e">FLORIDA EDITION</span>
+            <svg viewBox="0 0 220 150"><path d="M10 145 L10 116 L32 98 L54 116 L54 145 Z M62 145 L62 96 L84 78 L106 96 L106 145 Z M114 145 L114 78 L136 60 L158 78 L158 145 Z M166 145 L166 56 L188 38 L210 56 L210 145 Z" fill="#4169A5"/><path d="M6 102 L36 78 L46 86 L88 54 L98 62 L148 24 L160 32 L206 6" fill="none" stroke="#C9D3E6" stroke-width="4"/></svg>
+            <span class="t">Commercial Real Estate &amp; Development Due Diligence</span>
+          </div></div></div>
+          <div style="display:grid;gap:14px">
+            <p style="color:var(--ink-2);font-size:15px">A Florida guide for new agents, buyers and investors: what can go wrong, what to ask for, warning signs, when to call a professional, a checklist in every chapter, and two worked case studies.</p>
+            <div class="bmeta"><div><span>Release</span><b>Jan 2027</b></div><div><span>Edition</span><b>Florida</b></div><div class="price"><span>Price</span><b>$29.99</b></div></div>
+          </div>
+        </div>
+        <form class="notify" id="notifyForm" name="book-notify" method="post" data-netlify="true" netlify-honeypot="website" novalidate style="margin-top:18px">
+          <label for="notifyEmail" class="tag" style="flex-basis:100%">Get notified at release</label>
+          <input id="notifyEmail" name="email" type="email" placeholder="you@company.com" autocomplete="email" required>
+          <input type="hidden" name="form-name" value="book-notify"><input type="text" name="website" hidden tabindex="-1" autocomplete="off">
+          <button class="btn btn-light" type="submit">Notify me <span class="ar">→</span></button>
+          <p class="form-msg" id="notifyMsg" hidden></p>
+        </form>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="chapter chapter-right" id="faq" data-side="right" aria-labelledby="h-faq">
+    <div class="in"><div class="panel reveal">
+      <div class="ch-num"><b>06</b><i></i><span class="tag">Questions</span></div>
+      <h2 id="h-faq">Before you <em class="s">call.</em></h2>
+      <div class="glass faq" style="padding:6px 22px">
+        <details><summary>Can I hire only Phase 1?</summary><p>Yes. Each phase can be selected on its own. Many clients start with Phase 1 and decide on concept design after seeing the findings.</p></details>
+        <details><summary>Is this a Phase I Environmental Site Assessment?</summary><p>No. We screen for known environmental constraints in public sources, such as flood zones and mapped wetlands. A Phase I ESA is a separate study by an environmental professional, and lenders often require one.</p></details>
+        <details><summary>Can the concept plan be used for permits?</summary><p>No. It is schematic and not for construction. Permit drawings come from a licensed architect or engineer.</p></details>
+        <details><summary>Is the pre-application meeting an approval?</summary><p>No. Staff comments are informal and non-binding, which is why we document them in writing.</p></details>
+        <details><summary>What do I need to provide?</summary><p>The address or parcel ID, your intended use and size goals, and any deed, title report, survey, earlier reports, or known easements.</p></details>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="chapter chapter-left" id="contact" data-side="left" aria-labelledby="h-contact">
+    <div class="in"><div class="panel wide reveal">
+      <h2 id="h-contact" class="cta-big">Let’s look at your <em class="s">site.</em></h2>
+      <div class="cline">
+        <div><span class="tag">Phone</span><span class="val"><span id="phoneVal">407-739-5959</span><button class="copy" type="button" data-copy="phoneVal">Copy</button></span></div>
+        <div><span class="tag">Office</span><span class="val">1073 Willa Springs Dr., Suite 1005, Winter Springs, FL 32708</span></div>
+      </div>
+      <form class="card glass" id="inquiryForm" name="proposal-request" method="post" data-netlify="true" netlify-honeypot="website" novalidate>
+        <input type="hidden" name="form-name" value="proposal-request">
+        <p hidden><label>Leave this field empty <input name="website" tabindex="-1" autocomplete="off"></label></p>
+        <div class="row2">
+          <label class="f" for="fName">Name<input id="fName" name="name" autocomplete="name" required></label>
+          <label class="f" for="fEmail">Email<input id="fEmail" name="email" type="email" autocomplete="email" required></label>
+        </div>
+        <div class="row2">
+          <label class="f" for="fPhone">Phone<input id="fPhone" name="phone" type="tel" autocomplete="tel"></label>
+          <label class="f" for="fProp">Property address or parcel ID<input id="fProp" name="property"></label>
+        </div>
+        <fieldset><legend>Phases of interest</legend>
+          <div class="chips">
+            <label for="c1"><input id="c1" type="checkbox" name="phase" value="1" checked><span>01 Analyze</span></label>
+            <label for="c2"><input id="c2" type="checkbox" name="phase" value="2"><span>02 Design</span></label>
+            <label for="c3"><input id="c3" type="checkbox" name="phase" value="3"><span>03 Present</span></label>
+            <label for="c4"><input id="c4" type="checkbox" name="phase" value="other"><span>Not sure yet</span></label>
+          </div>
+        </fieldset>
+        <label class="f" for="fMsg">What do you want to build or buy?<textarea id="fMsg" name="message" placeholder="Example: Under contract on a 2-acre commercial parcel; want to confirm a 12,000 SF retail building fits."></textarea></label>
+        <button class="btn btn-light" type="submit" style="justify-self:start">Request a proposal <span class="ar">→</span></button>
+        <p class="form-msg" id="inquiryMsg" hidden></p>
+      </form>
+    </div></div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <img src="assets/images/logo.png" alt="Rising Solutions Group" width="170" height="128">
+    <div>
+      <p><b>Planning · Development · Real Estate · Due Diligence</b></p>
+      <p>1073 Willa Springs Dr., Suite 1005, Winter Springs, FL 32708 · 407-739-5959</p>
+      <p>Our services are preliminary and advisory. Findings rely on public records and client-provided documents available at the time of preparation. They are not stamped construction documents, engineering plans, surveys, environmental site assessments, formal permit applications or legal advice. Pre-application staff comments are non-binding and are not an approval or permit. The parcel, plans and surrounding map in the drawings are a generated sample for illustration. Each engagement is governed by a written service agreement.</p>
+    </div>
+    <div class="legal"><span>© 2026 Rising Solutions Group LLC</span><span>Florida commercial &amp; land due diligence</span></div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+
+</body>
+</html>
