@@ -144,6 +144,20 @@ function pagerUpdate(i){
   pgNext.setAttribute('aria-label', i === last ? 'Back to top' : 'Next chapter: ' + (CH_NAMES[i + 1] || ''));
   pgPrev.setAttribute('aria-label', i === 0 ? 'Previous chapter' : 'Previous chapter: ' + CH_NAMES[i - 1]);
 }
+// On phones the bar steps aside while the visitor scrolls down to read,
+// and comes back on scroll up, at the top or bottom, or after Back/Next.
+var pager = $('#pager'), lastY = scrollY, tuckLock = 0;
+var narrowMQ = window.matchMedia('(max-width: 820px)');
+function pagerShow(){ pager.classList.remove('tuck'); }
+addEventListener('scroll', function(){
+  var y = scrollY, dy = y - lastY; lastY = y;
+  if (!narrowMQ.matches || Date.now() < tuckLock){ pagerShow(); return; }
+  var atEnd = y + innerHeight >= document.documentElement.scrollHeight - 8;
+  if (y < 40 || atEnd || dy < -4) pagerShow();
+  else if (dy > 4) pager.classList.add('tuck');
+}, {passive:true});
+pager.addEventListener('focusin', pagerShow);
+[pgPrev, pgNext].forEach(function(btn){ btn.addEventListener('click', function(){ tuckLock = Date.now() + 1400; pagerShow(); }); });
 pgPrev.addEventListener('click', function(){ var p = progress(); goChapter(Math.ceil(p - .05) - 1); });
 pgNext.addEventListener('click', function(){ var p = progress(); if (Math.round(p) >= chapters.length - 1 || scrollY + innerHeight >= document.documentElement.scrollHeight - 4) goChapter(0); else goChapter(Math.floor(p + .05) + 1); });
 document.addEventListener('keydown', function(e){
