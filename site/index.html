@@ -54,14 +54,6 @@ em.s{font-family:var(--serif);font-style:italic;font-weight:400}
 .scrim-center{background:radial-gradient(ellipse 60% 56% at 50% 50%,rgba(10,18,34,.8),rgba(10,18,34,.45) 55%,rgba(10,18,34,0) 85%)}
 body[data-side="left"] .scrim-left,body[data-side="right"] .scrim-right,body[data-side="center"] .scrim-center{opacity:1}
 .labels{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden}
-.lbl{position:absolute;left:0;top:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;white-space:nowrap;padding:4px 8px;border-radius:3px;background:rgba(10,18,34,.8);border:1px solid currentColor;transition:opacity .4s;will-change:transform}
-.lbl::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:12px;background:currentColor}
-.lbl.big{font-size:11.5px;color:var(--ink);border-color:var(--accent);background:rgba(16,28,58,.85)}
-.lbl.pin{font-family:var(--body);font-size:12.5px;letter-spacing:0;color:var(--ink);border-color:var(--amber);padding:6px 10px 6px 6px;display:flex;align-items:center;gap:8px;transition:opacity .4s,box-shadow .3s,background .3s}
-.lbl.pin b{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--amber);color:#0A1020;font:600 11px var(--mono)}
-.lbl.pin::after{background:var(--amber)}
-.lbl.pin.hot{background:rgba(240,176,74,.22);box-shadow:0 0 0 4px rgba(240,176,74,.18)}
-.lbl.off{opacity:0}
 
 /* ---------- Loader ---------- */
 .loader{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;transition:opacity .9s ease,visibility .9s}
@@ -92,6 +84,18 @@ header.site{position:fixed;top:env(safe-area-inset-top, 0px);left:0;right:0;z-in
 .rail a:hover .nm,.rail a.on .nm{opacity:1;transform:none}
 .rail a.on .dt{width:38px;background:var(--accent)}
 @media (max-width:1180px){.rail{display:none}}
+.pager{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:4px;padding:5px;border-radius:999px;background:rgba(10,18,34,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line-2);box-shadow:0 10px 30px -12px rgba(0,0,0,.7);max-width:calc(100vw - 32px)}
+.pager button{display:inline-flex;align-items:center;gap:8px;font:500 14px/1 var(--body);color:var(--ink);background:transparent;border:0;border-radius:999px;padding:11px 16px;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s,opacity .2s}
+.pager button:hover:not(:disabled){background:rgba(255,255,255,.08)}
+.pager button.next{background:var(--ink);color:#0A1020}
+.pager button.next:hover{background:var(--accent)}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager .ar{font-family:var(--mono);font-size:13px}
+.pager .where{display:grid;justify-items:center;gap:2px;padding:0 12px;min-width:118px;text-align:center}
+.pager .where b{font:500 10.5px var(--mono);letter-spacing:.14em;color:var(--accent)}
+.pager .where span{font-size:13px;color:var(--ink-2);white-space:nowrap}
+@media (max-width:560px){.pager button{padding:10px 13px;font-size:13px}.pager .pg-lbl{display:none}.pager .where{min-width:96px;padding:0 6px}}
+@media print{.pager{display:none}}
 
 /* ---------- Chapters ---------- */
 main{position:relative;z-index:3}
@@ -246,7 +250,7 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
 .foot img{width:170px;height:auto;display:block}
 .foot p + p{margin-top:10px}
 .foot b{color:var(--ink);font-weight:500}
-.legal{grid-column:1/-1;border-top:1px solid var(--line);padding-top:16px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+.legal{grid-column:1/-1;margin-bottom:64px;border-top:1px solid var(--line);padding-top:16px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
 @media (max-width:760px){.foot{grid-template-columns:1fr;gap:26px}}
 
 /* phones: text sits low, world above it */
@@ -257,7 +261,6 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
   .scrim-left,.scrim-right,.scrim-center{background:linear-gradient(0deg,rgba(10,18,34,.92) 0%,rgba(10,18,34,.72) 45%,rgba(10,18,34,.1) 75%,rgba(10,18,34,0) 90%)}
   .glass{padding:20px}
   .facts{grid-template-columns:1fr}
-  .lbl{font-size:9.5px;padding:3px 6px}
 }
 .nogl .stage canvas{display:none}
 </style>
@@ -298,6 +301,12 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
   <li><a href="#faq" data-ch="7"><span class="nm">Questions</span><span class="dt"></span></a></li>
   <li><a href="#contact" data-ch="8"><span class="nm">Contact</span><span class="dt"></span></a></li>
 </ol>
+
+<nav class="pager" id="pager" aria-label="Move between chapters">
+  <button type="button" class="prev" id="pgPrev" aria-label="Previous chapter"><span class="ar" aria-hidden="true">←</span><span class="pg-lbl">Back</span></button>
+  <div class="where" aria-live="polite"><b id="pgNum">01 / 09</b><span id="pgName">Overview</span></div>
+  <button type="button" class="next" id="pgNext" aria-label="Next chapter"><span class="pg-lbl" id="pgNextLbl">Next</span><span class="ar" aria-hidden="true" id="pgNextAr">→</span></button>
+</nav>
 
 <main>
   <section class="chapter chapter-left hero" id="top" data-side="left" aria-labelledby="h-hero">

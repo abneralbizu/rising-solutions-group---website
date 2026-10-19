@@ -127,8 +127,32 @@ function progress(){
   return anchors.length - 1;
 }
 var curCh = -1;
+var CH_NAMES = ['Overview','01 Analyze','02 Design','03 Present','Who we serve','Process','The book','Questions','Contact'];
+var pgPrev = $('#pgPrev'), pgNext = $('#pgNext');
+function goChapter(i){
+  computeAnchors(); i = clamp(i, 0, chapters.length - 1);
+  scrollTo({top: anchors[i], behavior: REDUCED ? 'auto' : 'smooth'});
+  var hd = chapters[i].querySelector('h1, h2'); if (hd){ hd.setAttribute('tabindex', '-1'); hd.focus({preventScroll:true}); }
+}
+function pagerUpdate(i){
+  var last = chapters.length - 1;
+  $('#pgNum').textContent = (i < 9 ? '0' : '') + (i + 1) + ' / ' + (last < 9 ? '0' : '') + (last + 1);
+  $('#pgName').textContent = CH_NAMES[i] || '';
+  pgPrev.disabled = i === 0;
+  $('#pgNextLbl').textContent = i === last ? 'Back to top' : 'Next';
+  $('#pgNextAr').textContent = i === last ? '↑' : '→';
+  pgNext.setAttribute('aria-label', i === last ? 'Back to top' : 'Next chapter: ' + (CH_NAMES[i + 1] || ''));
+  pgPrev.setAttribute('aria-label', i === 0 ? 'Previous chapter' : 'Previous chapter: ' + CH_NAMES[i - 1]);
+}
+pgPrev.addEventListener('click', function(){ var p = progress(); goChapter(Math.ceil(p - .05) - 1); });
+pgNext.addEventListener('click', function(){ var p = progress(); if (Math.round(p) >= chapters.length - 1 || scrollY + innerHeight >= document.documentElement.scrollHeight - 4) goChapter(0); else goChapter(Math.floor(p + .05) + 1); });
+document.addEventListener('keydown', function(e){
+  if (e.altKey || e.ctrlKey || e.metaKey || /^(INPUT|TEXTAREA|SELECT|BUTTON|SUMMARY)$/.test((e.target.tagName || ''))) return;
+  if (e.key === 'ArrowRight'){ e.preventDefault(); pgNext.click(); }
+  if (e.key === 'ArrowLeft'){ e.preventDefault(); pgPrev.click(); }
+});
 function setChapter(i){
-  if (i === curCh) return; curCh = i;
+  if (i === curCh) return; curCh = i; pagerUpdate(i);
   body.dataset.side = chapters[i].dataset.side || 'left';
   railLinks.forEach(function(a){ a.classList.toggle('on', +a.dataset.ch === i); });
 }
