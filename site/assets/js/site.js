@@ -127,7 +127,7 @@ function progress(){
   return anchors.length - 1;
 }
 var curCh = -1;
-var CH_NAMES = ['Overview','01 Analyze','02 Design','03 Present','Who we serve','Process','The book','Questions','Contact'];
+var CH_NAMES = ['Overview','01 Analyze','02 Design','03 Pre-application','Who we serve','Process','The book','Questions','Contact'];
 var pgPrev = $('#pgPrev'), pgNext = $('#pgNext');
 function goChapter(i){
   computeAnchors(); i = clamp(i, 0, chapters.length - 1);
