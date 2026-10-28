@@ -566,6 +566,12 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
           <label class="f" for="fPhone">Phone<input id="fPhone" name="phone" type="tel" autocomplete="tel"></label>
           <label class="f" for="fProp">Property address or parcel ID<input id="fProp" name="property"></label>
         </div>
+        <fieldset id="locSet"><legend>Property location</legend>
+          <div class="chips">
+            <label for="locFL"><input id="locFL" type="radio" name="location" value="Florida" required><span>Florida</span></label>
+            <label for="locNY"><input id="locNY" type="radio" name="location" value="New York"><span>New York</span></label>
+          </div>
+        </fieldset>
         <fieldset><legend>Phases of interest</legend>
           <div class="chips">
             <label for="c1"><input id="c1" type="checkbox" name="phase" value="1" checked><span>01 Analyze</span></label>

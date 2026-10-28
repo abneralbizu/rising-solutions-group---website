@@ -199,6 +199,7 @@ $('#inquiryForm').addEventListener('submit', function(e){
   var m = $('#inquiryMsg'), n = $('#fName'), em = $('#fEmail');
   if (!n.value.trim()){ show(m, 'Please add your name so we know who to reply to.'); n.focus(); return; }
   if (!em.value.trim() || !em.checkValidity()){ show(m, 'Please enter a valid email address, such as you@company.com.'); em.focus(); return; }
+  if (!e.target.querySelector('input[name="location"]:checked')){ show(m, 'Please choose where the property is: Florida or New York.'); $('#locFL').focus(); return; }
   send(e.target, m, 'Thank you. Your request was sent, and we will reply with a proposal.');
 });
 $('#notifyForm').addEventListener('submit', function(e){
