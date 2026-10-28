@@ -136,7 +136,8 @@ main{position:relative;z-index:3}
 .hl li{border-radius:10px;transition:background .2s}
 .hl .it{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:12px;align-items:center;padding:6px 10px;cursor:pointer;border-radius:10px}
 .hl .it:hover,.hl .it.hot{background:rgba(255,255,255,.06)}
-.hl input{position:absolute;opacity:0;pointer-events:none}
+.hl .it{position:relative}
+.hl input{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
 .tog{width:30px;height:18px;border-radius:999px;background:var(--line-2);position:relative;transition:background .2s}
 .tog::after{content:"";position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--ink-3);transition:transform .2s,background .2s}
 .hl input:checked + .tog{background:var(--c)}
@@ -266,6 +267,37 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
   header.site{background:rgba(10,18,34,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   .nav{padding-block:10px}
 }
+/* Rafael: bio chapter + contact card */
+.agent{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center}
+.agent picture,.agent img{display:block}
+.agent img{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:50% 22%;border:1px solid var(--line-2);box-shadow:0 0 0 4px rgba(158,194,255,.08)}
+.agent .nm{font-family:var(--display);font-size:24px;font-weight:500;line-height:1.1}
+.agent .rl{font-size:14px;color:var(--ink-2);margin-top:4px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.badges span{font:500 11px var(--mono);letter-spacing:.06em;padding:5px 9px;border:1px solid var(--line-2);border-radius:999px;color:var(--ink-2)}
+.bio p{color:var(--ink-2);font-size:15.5px}
+.bio p + p{margin-top:10px}
+.bio-acc details{border-top:1px solid var(--line)}
+.bio-acc details:last-child{border-bottom:1px solid var(--line)}
+.bio-acc summary{cursor:pointer;list-style:none;padding:13px 40px 13px 0;font-family:var(--display);font-size:18px;position:relative;display:flex;gap:12px;align-items:baseline}
+.bio-acc summary::-webkit-details-marker{display:none}
+.bio-acc summary b{font:500 11px var(--mono);color:var(--accent);letter-spacing:.1em}
+.bio-acc summary::after{content:"+";position:absolute;right:0;top:8px;width:30px;height:30px;border:1px solid var(--line-2);border-radius:50%;display:grid;place-items:center;font:300 18px var(--display);transition:transform .3s}
+.bio-acc details[open] summary::after{transform:rotate(45deg)}
+.bio-acc summary:hover{color:var(--accent)}
+.bio-acc .bd{padding:0 0 16px;display:grid;gap:10px}
+.bio-acc .bd p{font-size:14.5px;color:var(--ink-2)}
+.bio-acc .bd ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.bio-acc .bd li{font-size:14px;color:var(--ink-2);padding-left:18px;position:relative}
+.bio-acc .bd li::before{content:"";position:absolute;left:0;top:.68em;width:9px;height:1px;background:var(--accent)}
+.bio-cta{display:flex;flex-wrap:wrap;gap:10px}
+.agent-card{padding:16px 18px}
+.agent-card img{width:72px;height:72px}
+.agent-card .nm{font-size:20px}
+.agent-links{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:8px;font-size:14px}
+.agent-links a{color:var(--accent);text-decoration:none}
+.agent-links a:hover{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:520px){.agent img{width:76px;height:76px}.agent-card img{width:60px;height:60px}.agent .nm{font-size:21px}}
 .nogl .stage canvas{display:none}
 </style>
 <link rel="icon" type="image/png" href="assets/images/favicon.png">
@@ -289,7 +321,7 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
 <header class="site">
   <div class="nav">
     <a class="brand" href="#top" aria-label="Rising Solutions Group home"><img src="assets/images/logo-mark.png" alt="" width="47" height="36"><span>RISING SOLUTIONS GROUP</span></a>
-    <nav class="nav-links" aria-label="Main"><a href="#analyze">Analyze</a><a href="#design">Design</a><a href="#present">Pre-application</a><a href="#book">The Book</a><a href="#contact">Contact</a></nav>
+    <nav class="nav-links" aria-label="Main"><a href="#analyze">Analyze</a><a href="#design">Design</a><a href="#present">Pre-application</a><a href="#book">The Book</a><a href="#rafael">About</a><a href="#contact">Contact</a></nav>
     <a class="btn btn-light" href="#contact">Start a project <span class="ar">→</span></a>
   </div>
 </header>
@@ -300,10 +332,11 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
   <li><a href="#design" data-ch="2"><span class="nm">02 Design</span><span class="dt"></span></a></li>
   <li><a href="#present" data-ch="3"><span class="nm">03 Pre-application</span><span class="dt"></span></a></li>
   <li><a href="#who" data-ch="4"><span class="nm">Who we serve</span><span class="dt"></span></a></li>
-  <li><a href="#process" data-ch="5"><span class="nm">Process</span><span class="dt"></span></a></li>
-  <li><a href="#book" data-ch="6"><span class="nm">The book</span><span class="dt"></span></a></li>
-  <li><a href="#faq" data-ch="7"><span class="nm">Questions</span><span class="dt"></span></a></li>
-  <li><a href="#contact" data-ch="8"><span class="nm">Contact</span><span class="dt"></span></a></li>
+  <li><a href="#rafael" data-ch="5"><span class="nm">Meet Rafael</span><span class="dt"></span></a></li>
+  <li><a href="#process" data-ch="6"><span class="nm">Process</span><span class="dt"></span></a></li>
+  <li><a href="#book" data-ch="7"><span class="nm">The book</span><span class="dt"></span></a></li>
+  <li><a href="#faq" data-ch="8"><span class="nm">Questions</span><span class="dt"></span></a></li>
+  <li><a href="#contact" data-ch="9"><span class="nm">Contact</span><span class="dt"></span></a></li>
 </ol>
 
 <nav class="pager" id="pager" aria-label="Move between chapters">
@@ -398,9 +431,50 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
     </div></div>
   </section>
 
+  <section class="chapter chapter-right" id="rafael" data-side="right" aria-labelledby="h-rafael">
+    <div class="in"><div class="panel reveal">
+      <div class="ch-num"><b>04</b><i></i><span class="tag">About</span></div>
+      <h2 id="h-rafael">Meet <em class="s">Rafael</em></h2>
+      <div class="glass bio" style="display:grid;gap:16px">
+        <div class="agent">
+          <picture><source srcset="assets/images/rafael-gonzalez-480.webp" type="image/webp"><img src="assets/images/rafael-gonzalez-480.jpg" alt="Rafael A. Gonzalez" width="96" height="96" loading="lazy" decoding="async"></picture>
+          <div>
+            <p class="nm">Rafael A. Gonzalez</p>
+            <p class="rl">Licensed Real Estate Broker · Florida &amp; New York</p>
+            <div class="badges"><span>50+ years of executive leadership</span><span>English · Español</span></div>
+          </div>
+        </div>
+        <div>
+          <p>Rafael leads Continental Investments International Network Co. as broker and CEO. He brings more than five decades of leadership across hospital operations, real estate development and institutional management.</p>
+        </div>
+        <div class="bio-acc">
+          <details><summary><b>01</b>Due diligence</summary><div class="bd">
+            <p>Before a client commits, Rafael leads a full review of the property so the decision rests on facts rather than assumptions:</p>
+            <ul><li>Site analysis: access, layout, utilities and how the site can be used</li><li>Zoning: what is allowed today and the path to the approvals a project needs</li><li>Environmental screening: known conditions and risks on and around the site</li><li>Title research: ownership, liens and restrictions</li><li>Market valuation: value, demand and feasibility</li></ul>
+            <p>For healthcare and senior housing projects, the review also covers state licensing, AHCA requirements and market feasibility for Florida projects.</p>
+          </div></details>
+          <details><summary><b>02</b>Real estate brokerage &amp; development</summary><div class="bd">
+            <p>His work spans commercial, institutional, land and faith-based property, with particular depth in assisted living, senior housing and medical-use real estate. He pairs an operator’s discipline with a developer’s eye to find, evaluate and close complex transactions.</p>
+            <p>As a broker licensed in two states, Rafael represents buyers, sellers and developers of commercial, institutional and faith-based real estate across Florida and New York, from acquisition and sale through development.</p>
+            <ul><li>Acquisition strategy, development entitlement, permitting and construction oversight in Florida and New York</li><li>Land development and entitlement for mixed-use, residential and institutional projects across several Florida counties</li><li>Commercial, institutional and land assignments, managed as a portfolio from start to finish</li><li>Church facilities for buyers, sellers and developers of every size</li></ul>
+            <p>He is also the president and founder of the National Christian Churches &amp; Ministries Network (NCCMN), advising on church facility development, organizational growth and ministry management.</p>
+          </div></details>
+          <details><summary><b>03</b>Healthcare operations &amp; senior housing</summary><div class="bd">
+            <p>From 1980 to 1989 Rafael served as Vice President of Operations for GCA &amp; Associates Inc., the largest hospital management company in Puerto Rico. He directed regulatory compliance, vendor management, operating procedures, facilities planning and capital improvements across several campuses.</p>
+            <p>That experience shapes his healthcare real estate work: evaluating sites for assisted living facilities (ALF) and senior housing in Florida, including zoning, the state licensing framework, AHCA requirements and market feasibility.</p>
+          </div></details>
+          <details><summary><b>04</b>Licenses &amp; education</summary><div class="bd">
+            <ul><li>Licensed Real Estate Broker, Florida (BK3000549)</li><li>Licensed Real Estate Broker, New York (10371201108)</li><li>Certified Professional Consultant to Management (CPCM)</li><li>Certified Church Consultant, Church Consultation University</li><li>Program for Health Systems Management, Harvard School of Public Health</li><li>BS, Health Care Management, Century University</li><li>Master in Christian Administration, Master’s Divinity School</li><li>Fluent in English and Spanish</li></ul>
+          </div></details>
+        </div>
+        <div class="bio-cta"><a class="btn btn-light" href="mailto:rafael@ciinco.com">Email Rafael <span class="ar">→</span></a><a class="btn btn-ghost" href="tel:+14077395959">Call 407-739-5959</a></div>
+      </div>
+    </div></div>
+  </section>
+
   <section class="chapter chapter-left" id="process" data-side="left" aria-labelledby="h-process">
     <div class="in"><div class="panel reveal">
-      <div class="ch-num"><b>04</b><i></i><span class="tag">Process</span></div>
+      <div class="ch-num"><b>05</b><i></i><span class="tag">Process</span></div>
       <h2 id="h-process">How an engagement <em class="s">runs</em></h2>
       <ol class="steps">
         <li><span class="n">01</span><div><b>Tell us about the property</b><span>Address or parcel ID and what you want to build or buy.</span></div></li>
@@ -421,7 +495,7 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
 
   <section class="chapter chapter-right" id="book" data-side="right" aria-labelledby="h-book">
     <div class="in"><div class="panel reveal">
-      <div class="ch-num"><b>05</b><i></i><span class="tag">The book</span></div>
+      <div class="ch-num"><b>06</b><i></i><span class="tag">The book</span></div>
       <h2 id="h-book">The method, <em class="s">in print.</em></h2>
       <div class="glass">
         <div class="book-row">
@@ -448,7 +522,7 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
 
   <section class="chapter chapter-right" id="faq" data-side="right" aria-labelledby="h-faq">
     <div class="in"><div class="panel reveal">
-      <div class="ch-num"><b>06</b><i></i><span class="tag">Questions</span></div>
+      <div class="ch-num"><b>07</b><i></i><span class="tag">Questions</span></div>
       <h2 id="h-faq">Before you <em class="s">call.</em></h2>
       <div class="glass faq" style="padding:6px 22px">
         <details><summary>Can I hire only Phase 1?</summary><p>Yes. Each phase can be selected on its own. Many clients start with Phase 1 and decide on concept design after seeing the findings.</p></details>
@@ -463,8 +537,15 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
   <section class="chapter chapter-left" id="contact" data-side="left" aria-labelledby="h-contact">
     <div class="in"><div class="panel wide reveal">
       <h2 id="h-contact" class="cta-big">Let’s look at your <em class="s">site.</em></h2>
+      <div class="glass agent agent-card">
+        <picture><source srcset="assets/images/rafael-gonzalez-480.webp" type="image/webp"><img src="assets/images/rafael-gonzalez-480.jpg" alt="Rafael A. Gonzalez" width="72" height="72" loading="lazy" decoding="async"></picture>
+        <div>
+          <p class="nm">Rafael A. Gonzalez</p>
+          <p class="rl">Licensed Real Estate Broker · Florida &amp; New York · English · Español</p>
+          <p class="agent-links"><a href="tel:+14077395959">407-739-5959</a><a href="mailto:rafael@ciinco.com">rafael@ciinco.com</a><a href="#rafael">Read his bio</a></p>
+        </div>
+      </div>
       <div class="cline">
-        <div><span class="tag">Phone</span><span class="val"><span id="phoneVal">407-739-5959</span><button class="copy" type="button" data-copy="phoneVal">Copy</button></span></div>
         <div><span class="tag">Office</span><span class="val">1073 Willa Springs Dr., Suite 1005, Winter Springs, FL 32708</span></div>
       </div>
       <form class="card glass" id="inquiryForm" name="proposal-request" method="post" data-netlify="true" netlify-honeypot="website" novalidate>
@@ -499,7 +580,8 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
     <img src="assets/images/logo.png" alt="Rising Solutions Group" width="170" height="128">
     <div>
       <p><b>Planning · Development · Real Estate · Due Diligence</b></p>
-      <p>1073 Willa Springs Dr., Suite 1005, Winter Springs, FL 32708 · 407-739-5959</p>
+      <p>1073 Willa Springs Dr., Suite 1005, Winter Springs, FL 32708 · 407-739-5959 · rafael@ciinco.com</p>
+      <p>Rafael A. Gonzalez, Licensed Real Estate Broker · Florida license BK3000549 · New York license 10371201108</p>
       <p>Our services are preliminary and advisory. Findings rely on public records and client-provided documents available at the time of preparation. They are not stamped construction documents, engineering plans, surveys, environmental site assessments, formal permit applications or legal advice. Pre-application staff comments are non-binding and are not an approval or permit. The parcel, plans and surrounding map in the drawings are a generated sample for illustration. Each engagement is governed by a written service agreement.</p>
     </div>
     <div class="legal"><span>© 2026 Rising Solutions Group LLC</span><span>Florida commercial &amp; land due diligence</span></div>

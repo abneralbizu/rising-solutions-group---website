@@ -127,7 +127,7 @@ function progress(){
   return anchors.length - 1;
 }
 var curCh = -1;
-var CH_NAMES = ['Overview','01 Analyze','02 Design','03 Pre-application','Who we serve','Process','The book','Questions','Contact'];
+var CH_NAMES = ['Overview','01 Analyze','02 Design','03 Pre-application','Who we serve','Meet Rafael','Process','The book','Questions','Contact'];
 var pgPrev = $('#pgPrev'), pgNext = $('#pgNext');
 function goChapter(i){
   computeAnchors(); i = clamp(i, 0, chapters.length - 1);
@@ -474,6 +474,7 @@ function engine(done){
     {c:[476, 214],  vw:1520, ox:.2,   mob:.62},
     {c:[330, 250],  vw:1120, ox:-.22, mob:.62},
     {c:[300, -60],  vw:4600, ox:0,    mob:.45},
+    {c:[760, -600], vw:1750, ox:-.22, mob:.55},
     {c:[-860, -640],vw:2000, ox:.2,   mob:.55},
     {c:[2010, -1600],vw:1800,ox:-.22, mob:.55},
     {c:[1320, 820], vw:1900, ox:-.22, mob:.55},
@@ -614,7 +615,7 @@ function engine(done){
     var panel = chapters[curCh] && chapters[curCh].querySelector('.panel'); panelRect = panel ? panel.getBoundingClientRect() : null;
     if (panelRect && (panelRect.bottom < 0 || panelRect.top > Hd)) panelRect = null;
 
-    var focus = clamp(smooth(.25, .9, p)*(1 - smooth(3.5, 4.1, p)) + smooth(7.25, 7.85, p)*.8, 0, 1);
+    var focus = clamp(smooth(.25, .9, p)*(1 - smooth(3.5, 4.1, p)) + smooth(8.25, 8.85, p)*.8, 0, 1);
     var ctxA = 1 - .5*focus;
     setWorld(); g.lineJoin = 'round'; g.lineCap = 'butt';
 
@@ -729,7 +730,7 @@ function engine(done){
 
     // ---------- concept (phase 2) ----------
     var wall = smooth(1.15, 1.8, p), stl = smooth(1.45, 1.95, p), dim = smooth(1.7, 2.1, p);
-    var cFade = 1 - .35*smooth(3.5, 4.2, p) + .35*smooth(7.2, 7.8, p);
+    var cFade = 1 - .35*smooth(3.5, 4.2, p) + .35*smooth(8.2, 8.8, p);
     if (wall > 0){
       g.globalAlpha = cFade;
       // drives
@@ -798,7 +799,7 @@ function engine(done){
       setWorld();
     }
     // ---------- sheet frame (contact) ----------
-    var sh = smooth(7.2, 7.85, p);
+    var sh = smooth(8.2, 8.85, p);
     if (sh > .01){
       var F0 = [[-150, -150], [1010, -150], [1010, 660], [-150, 660]], F1 = [[-136, -136], [996, -136], [996, 646], [-136, 646]];
       g.globalAlpha = .9; g.strokeStyle = '#C7D3EA'; lw(1.6); strokePartial(F0, sh, true); lw(.8); strokePartial(F1, sh, true);
@@ -823,7 +824,7 @@ function engine(done){
 
   function drawLabels(p, ctxA){
     // context labels
-    var ctxLab = (1 - smooth(.6, 1.0, p)) + smooth(3.6, 4.1, p)*(1 - smooth(7.2, 7.7, p));
+    var ctxLab = (1 - smooth(.6, 1.0, p)) + smooth(3.6, 4.1, p)*(1 - smooth(8.2, 8.7, p));
     if (ctxLab > .02 && intro > .8){
       var vb0 = s2w(0, 0), vb1 = s2w(Wd, Hd);
       ROADS.forEach(function(r){ if (!r.lbl) return; r.lbl.forEach(function(q){ if (q[0] < vb0[0] || q[0] > vb1[0] || q[1] < vb0[1] || q[1] > vb1[1]) return; var vert = r.pts[0][0] === r.pts[1][0]; var s = w2s(q[0], q[1]); font(9.5, 500); setLS('0.18em'); var tw = g.measureText(r.name).width; setLS('0px'); if (blocked(vert ? s[0] - 8 : s[0] - tw/2, vert ? s[1] - tw/2 : s[1] - 8, vert ? 16 : tw, vert ? tw : 16)) return; worldText(r.name, q[0], q[1], vert ? -Math.PI/2 : 0, 9.5, 'rgba(200,214,240,0.8)', ctxLab*.9, 'center', 500); }); });
