@@ -228,6 +228,12 @@ details.more[open] summary{margin-bottom:10px}
 .cline{display:flex;flex-wrap:wrap;gap:24px}
 .cline div{display:grid;gap:2px}
 .cline .val{font-family:var(--display);font-size:20px;font-weight:400}
+.offices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.offices > div{border:1px solid var(--line);border-radius:14px;padding:14px 16px;gap:4px;background:rgba(10,18,34,.45)}
+.offices address{font-style:normal;font-size:17px;line-height:1.35}
+.offices .ophone{font-size:14px;color:var(--accent);text-decoration:none;margin-top:4px}
+.offices .ophone:hover{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:560px){.offices{grid-template-columns:1fr}}
 .copy{font:500 10.5px var(--mono);letter-spacing:.06em;background:none;border:1px solid var(--line-2);border-radius:999px;padding:5px 10px;margin-left:10px;color:var(--ink-3);cursor:pointer;vertical-align:middle}
 .copy:hover{color:var(--ink);border-color:var(--ink)}
 form.card{display:grid;gap:14px}
@@ -545,8 +551,9 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
           <p class="agent-links"><a href="tel:+14077395959">407-739-5959</a><a href="mailto:rafael@ciinco.com">rafael@ciinco.com</a><a href="#rafael">Read his bio</a></p>
         </div>
       </div>
-      <div class="cline">
-        <div><span class="tag">Office</span><span class="val">1073 Willa Springs Dr., Suite 1005, Winter Springs, FL 32708</span></div>
+      <div class="cline offices">
+        <div><span class="tag">Florida office</span><address class="val">1073 Willa Springs Dr.<br>Suite 1005<br>Winter Springs, FL 32708</address><a class="ophone" href="tel:+14077395959">407-739-5959</a></div>
+        <div><span class="tag">New York office</span><address class="val">276 Fifth Ave.<br>Suite 704-265<br>New York, NY 10001</address><a class="ophone" href="tel:+13472486258">347-248-6258</a></div>
       </div>
       <form class="card glass" id="inquiryForm" name="proposal-request" method="post" data-netlify="true" netlify-honeypot="website" novalidate>
         <input type="hidden" name="form-name" value="proposal-request">
@@ -580,7 +587,9 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
     <img src="assets/images/logo.png" alt="Rising Solutions Group" width="170" height="128">
     <div>
       <p><b>Planning · Development · Real Estate · Due Diligence</b></p>
-      <p>1073 Willa Springs Dr., Suite 1005, Winter Springs, FL 32708 · 407-739-5959 · rafael@ciinco.com</p>
+      <p>Florida: 1073 Willa Springs Dr., Suite 1005, Winter Springs, FL 32708 · 407-739-5959</p>
+      <p>New York: 276 Fifth Ave., Suite 704-265, New York, NY 10001 · 347-248-6258</p>
+      <p>rafael@ciinco.com</p>
       <p>Rafael A. Gonzalez, Licensed Real Estate Broker · Florida license BK3000549 · New York license 10371201108</p>
       <p>Our services are preliminary and advisory. Findings rely on public records and client-provided documents available at the time of preparation. They are not stamped construction documents, engineering plans, surveys, environmental site assessments, formal permit applications or legal advice. Pre-application staff comments are non-binding and are not an approval or permit. The parcel, plans and surrounding map in the drawings are a generated sample for illustration. Each engagement is governed by a written service agreement.</p>
     </div>
