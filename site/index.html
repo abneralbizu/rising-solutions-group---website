@@ -66,7 +66,7 @@ body[data-side="left"] .scrim-left,body[data-side="right"] .scrim-right,body[dat
 
 /* ---------- Header + rail ---------- */
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:40;background:var(--bg)}
-header.site{position:fixed;top:env(safe-area-inset-top, 0px);left:0;right:0;z-index:30;background:linear-gradient(180deg,rgba(10,18,34,.75),rgba(10,18,34,0));}
+header.site{position:fixed;top:env(safe-area-inset-top, 0px);left:0;right:0;z-index:30;background:rgba(10,18,34,.86);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-bottom:1px solid var(--line)}
 .nav{max-width:var(--max);margin:0 auto;padding:16px max(var(--gut), env(safe-area-inset-right, 0px)) 16px max(var(--gut), env(safe-area-inset-left, 0px));display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
 .brand img{height:36px;width:auto;display:block}
@@ -304,6 +304,32 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
 .agent-links a{color:var(--accent);text-decoration:none}
 .agent-links a:hover{text-decoration:underline;text-underline-offset:3px}
 @media (max-width:520px){.agent img{width:76px;height:76px}.agent-card img{width:60px;height:60px}.agent .nm{font-size:21px}}
+/* Contact: two columns on wide screens */
+.contact-wrap{width:min(1120px,100%);display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:40px;align-items:start}
+.contact-info{display:grid;gap:18px;align-content:start}
+.contact-info h2{font-size:clamp(40px,4.4vw,64px);letter-spacing:-.035em;line-height:.95}
+.contact-info h2 em.s{color:var(--accent)}
+.contact-info .lede{font-size:16.5px}
+.contact-card{display:grid;gap:16px;padding:20px}
+.contact-card .agent img{width:64px;height:64px}
+.contact-card .nm{font-size:20px}
+.contact-card .rl{font-size:13.5px}
+.clist{margin:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.clist div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.clist dt{font:500 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);align-self:center}
+.clist dd{margin:0;font-size:15px}
+.clist a,.offices .ophone{color:var(--accent);text-decoration:none}
+.clist a:hover,.offices .ophone:hover{text-decoration:underline;text-underline-offset:3px}
+.contact-card .offices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.contact-card .offices > div{display:grid;gap:4px;align-content:start;border:0;padding:0;background:none;border-radius:0}
+.contact-card .offices address{font-style:normal;font-size:14.5px;line-height:1.45;color:var(--ink)}
+.contact-card .offices .ophone{font-size:14px;margin-top:2px}
+.contact-form{padding:24px}
+.form-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:4px;border-bottom:1px solid var(--line);margin-bottom:2px}
+.form-head h3{font-family:var(--display);font-size:22px;font-weight:500;padding-bottom:12px}
+.contact-form textarea{min-height:84px}
+@media (max-width:980px){.contact-wrap{grid-template-columns:1fr;gap:24px}}
+@media (max-width:520px){.contact-card .offices{grid-template-columns:1fr}.contact-form{padding:20px}}
 .nogl .stage canvas{display:none}
 </style>
 <link rel="icon" type="image/png" href="assets/images/favicon.png">
@@ -540,24 +566,34 @@ footer{position:relative;z-index:3;background:var(--bg);border-top:1px solid var
     </div></div>
   </section>
 
-  <section class="chapter chapter-left" id="contact" data-side="left" aria-labelledby="h-contact">
-    <div class="in"><div class="panel wide reveal">
-      <h2 id="h-contact" class="cta-big">Let’s look at your <em class="s">site.</em></h2>
-      <div class="glass agent agent-card">
-        <picture><source srcset="assets/images/rafael-gonzalez-480.webp" type="image/webp"><img src="assets/images/rafael-gonzalez-480.jpg" alt="Rafael A. Gonzalez" width="72" height="72" loading="lazy" decoding="async"></picture>
-        <div>
-          <p class="nm">Rafael A. Gonzalez</p>
-          <p class="rl">Licensed Real Estate Broker · Florida &amp; New York · English · Español</p>
-          <p class="agent-links"><a href="tel:+14077395959">407-739-5959</a><a href="mailto:rafael@ciinco.com">rafael@ciinco.com</a><a href="#rafael">Read his bio</a></p>
+  <section class="chapter chapter-center" id="contact" data-side="center" aria-labelledby="h-contact">
+    <div class="in"><div class="panel contact-wrap reveal">
+      <div class="contact-info">
+        <div class="ch-num"><b>08</b><i></i><span class="tag">Contact</span></div>
+        <h2 id="h-contact">Let’s look at your <em class="s">site.</em></h2>
+        <p class="lede">Tell us about the property. We’ll reply with the phases that fit and a fixed-fee proposal.</p>
+        <div class="glass contact-card">
+          <div class="agent">
+            <picture><source srcset="assets/images/rafael-gonzalez-480.webp" type="image/webp"><img src="assets/images/rafael-gonzalez-480.jpg" alt="Rafael A. Gonzalez" width="64" height="64" loading="lazy" decoding="async"></picture>
+            <div>
+              <p class="nm">Rafael A. Gonzalez</p>
+              <p class="rl">Licensed Real Estate Broker · FL &amp; NY · English · Español</p>
+            </div>
+          </div>
+          <dl class="clist">
+            <div><dt>Email</dt><dd><a href="mailto:rafael@ciinco.com">rafael@ciinco.com</a></dd></div>
+            <div><dt>Bio</dt><dd><a href="#rafael">Read about Rafael</a></dd></div>
+          </dl>
+          <div class="offices">
+            <div><span class="tag">Florida office</span><address>1073 Willa Springs Dr.<br>Suite 1005<br>Winter Springs, FL 32708</address><a class="ophone" href="tel:+14077395959">407-739-5959</a></div>
+            <div><span class="tag">New York office</span><address>276 Fifth Ave.<br>Suite 704-265<br>New York, NY 10001</address><a class="ophone" href="tel:+13472486258">347-248-6258</a></div>
+          </div>
         </div>
       </div>
-      <div class="cline offices">
-        <div><span class="tag">Florida office</span><address class="val">1073 Willa Springs Dr.<br>Suite 1005<br>Winter Springs, FL 32708</address><a class="ophone" href="tel:+14077395959">407-739-5959</a></div>
-        <div><span class="tag">New York office</span><address class="val">276 Fifth Ave.<br>Suite 704-265<br>New York, NY 10001</address><a class="ophone" href="tel:+13472486258">347-248-6258</a></div>
-      </div>
-      <form class="card glass" id="inquiryForm" name="proposal-request" method="post" data-netlify="true" netlify-honeypot="website" novalidate>
+      <form class="card glass contact-form" id="inquiryForm" name="proposal-request" method="post" data-netlify="true" netlify-honeypot="website" novalidate>
         <input type="hidden" name="form-name" value="proposal-request">
         <p hidden><label>Leave this field empty <input name="website" tabindex="-1" autocomplete="off"></label></p>
+        <div class="form-head"><h3>Request a proposal</h3><span class="tag">Fixed fee · per property</span></div>
         <div class="row2">
           <label class="f" for="fName">Name<input id="fName" name="name" autocomplete="name" required></label>
           <label class="f" for="fEmail">Email<input id="fEmail" name="email" type="email" autocomplete="email" required></label>

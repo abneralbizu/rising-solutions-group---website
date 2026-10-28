@@ -479,7 +479,7 @@ function engine(done){
     {c:[-860, -640],vw:2000, ox:.2,   mob:.55},
     {c:[2010, -1600],vw:1800,ox:-.22, mob:.55},
     {c:[1320, 820], vw:1900, ox:-.22, mob:.55},
-    {c:[430, 255],  vw:2080, ox:.2,   mob:.75}
+    {c:[430, 255],  vw:2300, ox:0,    mob:.75}
   ];
   function ease5(t){ return t*t*t*(t*(t*6 - 15) + 10); }
   var VIEW = {cx:0, cy:0, z:1, ox:0, oy:0};
